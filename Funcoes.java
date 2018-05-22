@@ -23,15 +23,15 @@ public class Funcoes {
 		try {
 			if(file.isFile()) {
 				Date d = new Date(file.lastModified());
-				System.out.println("Essas s„o as informaÁıes do seu arquivo:");
+				System.out.println("Essas s√£o as informa√ß√µes do seu arquivo:");
 				System.out.println("~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("Local: "+ file.getName());
 				System.out.println("Tamanho utilizado: "+ (file.length())/1024+"KB");
-				System.out.println("⁄ltima modificaÁ„o em: "+ d);
+				System.out.println("√öltima modifica√ß√£o em: "+ d);
 				if(file.isHidden()) {
-					System.out.println("… um arquivo oculto");
+					System.out.println("√â um arquivo oculto");
 				}else {
-					System.out.println("N„o È um arquivo oculto");
+					System.out.println("N√£o √© um arquivo oculto");
 				}
 				
 			}
@@ -68,43 +68,100 @@ public class Funcoes {
 	}
 	
 	public static void copiarArquivo(File in) {
-		byte[] buffer = null;
+		try{
+			if(in.isDirectory() ==  true && in.isFile() == false) {
+				System.out.println("Pastas n√£o popdem ser copiadas nessa vers√£o");
+				return;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			
 		
-		File out = new File(in.getParent()+"\\copia.txt");
+		byte[] buffer = new byte[1024];
+		
+		File out = new File(in.getParentFile()+ "\\copia"+ in.getName());
+		
 		
 		//buffer.
 		
-		
+		int tamanho;
 		
 		try {
 			
 			InputStream is = new FileInputStream(in);
 			//DataInputStream dis = new DataInputStream(is);
 			
-			is.read(buffer);
+			OutputStream os = new FileOutputStream(out);
+			//DataOutputStream dos = new DataOutputStream(os);
+			
+			//dis.read(buffer);
+			//dos.write(buffer);
+			
+			while((tamanho = is.read(buffer))> 0) {
+				os.write(buffer);
+			}
 			
 			//dis.close();
 			is.close();
-			
-		}catch(Exception e) {
-			
-			e.printStackTrace();
-		}
-		
-		try {
-			
-			OutputStream os = new FileOutputStream(out);
-			//DataOutputStream dos = new DataOutputStream(os);
-			//dos.write(buffer);
-			
 			//dos.close();
-			os.write(buffer);
 			os.close();
 			
 		}catch(Exception e) {
 			
 			e.printStackTrace();
 		}
+		
+	}
+	
+	
+	public static void search(String termo,File diretorio) {
+		   try {
+			   if (diretorio.canRead()) {
+				/*   FileFilter filtro = new FileFilter() {
+				    	public boolean accept(File pathname) {
+				    		return (pathname.getName().toString().equals(termo));
+				    	}
+				      };
+				  */ 
+				   for(File dir : diretorio.listFiles()) {
+					if(dir.getName().toString().toLowerCase().contains(termo.toLowerCase())) {
+						if(dir.isDirectory()){
+			        		System.out.println("Foi encontrado um diret√≥rio em "+dir);
+			        	}else if(dir.isFile()) {
+			        		System.out.println("Foi encontrado um arquivo em "+dir);
+			        	}
+					}
+					if(dir.isDirectory()){
+						search(termo,dir);
+			        	}
+			   }
+			   }   
+		   } catch(Exception e) {
+			   
+			   }
+	}
+	
+	public static void listaTudo() {
+		   for(File root : File.listRoots()) {
+	      	 listarSubDir(root);
+	       }
+	}
+	
+	
+	public static void listarSubDir(File diretorio) {
+		   try {
+			   if (diretorio.canRead()) {
+				   for(File nome : diretorio.listFiles()) {
+					System.out.println(nome);
+					if(nome.isDirectory()){
+						listarSubDir(nome);
+			        	}
+					}
+			   }
+		   } catch(Exception e) {
+
+			   }
 	}
 
 }

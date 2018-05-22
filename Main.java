@@ -24,6 +24,8 @@ public class Main {
 				System.out.println("O que você deseja fazer?");
 				System.out.println();
 				System.out.println("1 - Listar raizes");
+				System.out.println("2 - Listar Tudo");
+				System.out.println("3 - Busca por palavra-chave");
 				System.out.println("4 - Listar diretorio");
 				System.out.println("5 - Deletar algum arquivo");
 				System.out.println("6 - Listar atributos de um arquivo");
@@ -37,6 +39,20 @@ public class Main {
 					System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
 					Funcoes.listarRoot();
 					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~");
+					break;
+				case 2:
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
+					Funcoes.listaTudo();
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~");
+					break;
+				case 3:
+					System.out.println("Digite o nome que deseja pesquisar");
+					String nome = s.next();
+					System.out.println("~~~~~~~~");
+					for(File dir:File.listRoots()) {
+					Funcoes.search(nome,dir);
+}
+					System.out.println("~~~~~~~~");
 					break;
 				case 4:
 					System.out.println("Copie e cole o caminho do diretorio que deseja exibir");
