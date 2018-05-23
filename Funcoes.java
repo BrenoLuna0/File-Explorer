@@ -34,6 +34,8 @@ public class Funcoes {
 					System.out.println("Não é um arquivo oculto");
 				}
 				
+			} else {
+				System.out.println("Não é possivel mostrar informações de diretórios nessa atualização");
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
